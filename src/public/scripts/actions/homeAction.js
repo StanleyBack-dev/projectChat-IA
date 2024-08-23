@@ -1,9 +1,7 @@
-// homeScript.js
-
-// Função para enviar a mensagem para a API e receber a resposta
+// FUNCTION TO SEND MESSAGE TO THE API AND RECEIVE THE RESPONSE
 export const sendChatMessage = async (message) => {
     try {
-        // Exibe o indicador de carregamento
+        // DISPLAY LOADING INDICATOR
         document.getElementById('loading').style.display = 'flex';
 
         const response = await fetch('/chat', {
@@ -15,25 +13,26 @@ export const sendChatMessage = async (message) => {
         });
 
         if (!response.ok) {
-            throw new Error(`Erro HTTP! status: ${response.status}`);
+            throw new Error(`HTTP ERROR! status: ${response.status}`);
         }
 
         const data = await response.json();
-        const reply = data.response || 'Sem resposta';
+        const reply = data.response || 'No response';
 
-        // Adiciona a resposta da IA ao chat com formatação
-        addMessageToChat('Chat IA', formatText(reply));
+        // ADD AI RESPONSE TO CHAT WITH FORMATTING
+        addMessageToChat('Chat AI', formatText(reply));
 
     } catch (error) {
-        console.error('Erro ao enviar a mensagem:', error);
-        addMessageToChat('Erro', 'Não foi possível enviar a mensagem.');
+        console.error('Error sending the message:', error);
+        // ADD ERROR MESSAGE TO CHAT
+        addMessageToChat('Error', 'Could not send the message.');
     } finally {
-        // Oculta o indicador de carregamento
+        // HIDE LOADING INDICATOR
         document.getElementById('loading').style.display = 'none';
     }
 };
 
-// Função para adicionar uma mensagem ao chat
+// FUNCTION TO ADD A MESSAGE TO THE CHAT
 const addMessageToChat = (sender, message, isUser = false) => {
     const messagesDiv = document.getElementById('messages');
     const messageClass = isUser ? 'user' : 'ai';
@@ -43,16 +42,16 @@ const addMessageToChat = (sender, message, isUser = false) => {
             <div class="message">${message}</div>
         </div>
     `;
-    messagesDiv.scrollTop = messagesDiv.scrollHeight; // Rola para baixo automaticamente
+    messagesDiv.scrollTop = messagesDiv.scrollHeight; // AUTOMATICALLY SCROLL TO BOTTOM
     updateScrollDownButtonVisibility();
 };
 
-// Função para formatar o texto com quebras de linha e blocos de código
+// FUNCTION TO FORMAT TEXT WITH LINE BREAKS AND CODE BLOCKS
 const formatText = (text) => {
-    // Substitui quebras de linha por <br>
+    // REPLACE LINE BREAKS WITH <br>
     let formattedText = text.replace(/\n/g, '<br>');
 
-    // Substitui blocos de código por elementos <pre><code>
+    // REPLACE CODE BLOCKS WITH <pre><code> ELEMENTS
     formattedText = formattedText.replace(/```([a-zA-Z]*)\n([\s\S]*?)```/g, (match, lang, code) => {
         return `<pre><code class="language-${lang}">${escapeHtml(code)}</code></pre>`;
     });
@@ -60,7 +59,7 @@ const formatText = (text) => {
     return formattedText;
 };
 
-// Função para escapar caracteres HTML
+// FUNCTION TO ESCAPE HTML CHARACTERS
 const escapeHtml = (text) => {
     return text
         .replace(/&/g, '&amp;')
@@ -70,24 +69,24 @@ const escapeHtml = (text) => {
         .replace(/'/g, '&#039;');
 };
 
-// Adiciona o listener de evento ao botão de envio
+// ADD EVENT LISTENER TO SEND BUTTON
 document.getElementById('sendButton').addEventListener('click', () => {
     const input = document.getElementById('input');
     const message = input.value.trim();
 
     if (message) {
-        // Adiciona a mensagem do usuário ao chat
-        addMessageToChat('Você', formatText(message), true);
+        // ADD USER MESSAGE TO CHAT
+        addMessageToChat('You', formatText(message), true);
 
-        // Envia a mensagem para a API
+        // SEND MESSAGE TO API
         sendChatMessage(message);
 
-        // Limpa o campo de entrada
+        // CLEAR INPUT FIELD
         input.value = '';
     }
 });
 
-// Adiciona o listener de evento ao campo de entrada para envio com Enter
+// ADD EVENT LISTENER TO INPUT FIELD FOR ENTER KEY
 document.getElementById('input').addEventListener('keypress', (event) => {
     if (event.key === 'Enter' && !event.shiftKey) {
         event.preventDefault();
@@ -95,38 +94,37 @@ document.getElementById('input').addEventListener('keypress', (event) => {
     }
 });
 
-// Adiciona o listener de evento ao botão de reload para limpar o chat
+// ADD EVENT LISTENER TO RELOAD BUTTON TO CLEAR CHAT
 document.getElementById('reloadButton').addEventListener('click', () => {
-    document.getElementById('messages').innerHTML = ''; // Limpa o chat
-    updateScrollDownButtonVisibility(); // Atualiza visibilidade após limpar
+    document.getElementById('messages').innerHTML = ''; // CLEAR CHAT
+    updateScrollDownButtonVisibility(); // UPDATE VISIBILITY AFTER CLEARING
 });
 
-// Função para rolar para baixo
+// FUNCTION TO SCROLL TO BOTTOM
 document.getElementById('scrollDownButton').addEventListener('click', () => {
     const messagesDiv = document.getElementById('messages');
     messagesDiv.scrollTop = messagesDiv.scrollHeight;
 });
 
-// Função para atualizar a visibilidade do botão de rolar para baixo
+// FUNCTION TO UPDATE SCROLL DOWN BUTTON VISIBILITY
 const updateScrollDownButtonVisibility = () => {
     const messagesDiv = document.getElementById('messages');
-    const scrollHeight = messagesDiv.scrollHeight; // Altura total do conteúdo
-    const clientHeight = messagesDiv.clientHeight; // Altura visível do container
-    const scrollTop = messagesDiv.scrollTop; // Posição do scroll
+    const scrollHeight = messagesDiv.scrollHeight; // TOTAL CONTENT HEIGHT
+    const clientHeight = messagesDiv.clientHeight; // VISIBLE HEIGHT OF THE CONTAINER
+    const scrollTop = messagesDiv.scrollTop; // CURRENT SCROLL POSITION
 
     const scrollDownButton = document.getElementById('scrollDownButton');
     
-    // Verifica se há mais conteúdo para rolar e se o scroll não está no final
+    // CHECK IF THERE IS MORE CONTENT TO SCROLL AND IF SCROLL IS NOT AT THE BOTTOM
     if (scrollHeight > clientHeight && (scrollTop + clientHeight) < scrollHeight - 5) {
-        scrollDownButton.style.display = 'flex'; // Exibe o botão
+        scrollDownButton.style.display = 'flex'; // SHOW BUTTON
     } else {
-        scrollDownButton.style.display = 'none'; // Oculta o botão
+        scrollDownButton.style.display = 'none'; // HIDE BUTTON
     }
 };
 
-// Adiciona um listener de evento de scroll para atualizar a visibilidade do botão
+// ADD SCROLL EVENT LISTENER TO UPDATE SCROLL DOWN BUTTON VISIBILITY
 document.getElementById('messages').addEventListener('scroll', updateScrollDownButtonVisibility);
 
-// Inicializa a visibilidade do botão ao carregar a página
+// INITIALIZE SCROLL DOWN BUTTON VISIBILITY ON PAGE LOAD
 updateScrollDownButtonVisibility();
-
