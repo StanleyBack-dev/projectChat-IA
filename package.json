@@ -1,0 +1,17 @@
+{
+  "dependencies": {
+    "cohere-ai": "^7.12.1",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2"
+  },
+  "name": "project-test-ia",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "test-project-ia",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm start"
+  },
+  "author": "Stanley Rodrigues",
+  "license": "MIT"
+}

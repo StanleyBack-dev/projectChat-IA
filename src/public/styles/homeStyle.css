@@ -1,0 +1,200 @@
+/* Define o estilo global para o corpo da página */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #1e1e1e; /* Cor de fundo escura */
+    color: #e0e0e0; /* Cor do texto claro */
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+/* Estilo para o cabeçalho do chat */
+#chatHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background-color: #333; /* Cor de fundo do cabeçalho */
+    border-bottom: 2px solid #444; /* Linha de separação */
+}
+
+#chatHeader h1 {
+    margin: 0;
+    font-size: 24px;
+    color: #00bcd4; /* Cor do título */
+}
+
+#reloadButton {
+    background: none;
+    border: none;
+    color: #00bcd4;
+    cursor: pointer;
+    font-size: 20px;
+    transition: color 0.3s;
+}
+
+#reloadButton:hover {
+    color: #0097a7; /* Cor ao passar o mouse */
+}
+
+/* Estilo para o ícone do botão de reload */
+#reloadButton .fa-redo-alt {
+    font-size: 20px; /* Tamanho do ícone */
+}
+
+/* Estilo para a área de mensagens */
+#messages {
+    flex: 1;
+    padding: 10px;
+    overflow-y: auto;
+    border-bottom: 2px solid #444;
+    background-color: #2e2e2e; /* Cor de fundo das mensagens */
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5); /* Sombra interna */
+    display: flex;
+    flex-direction: column;
+}
+
+/* Estilo para o contêiner da mensagem */
+.message-container {
+    display: flex;
+    flex-direction: column;
+    margin: 5px 0;
+    padding: 10px;
+    border-radius: 8px;
+    max-width: 80%;
+    word-wrap: break-word;
+}
+
+/* Estilo para o nome do remetente */
+.sender-name {
+    font-weight: bold;
+    margin-bottom: 5px; /* Espaço entre o nome e a mensagem */
+}
+
+/* Estilo para as mensagens enviadas pelo usuário */
+.message-container.user {
+    align-self: flex-end; /* Alinha à direita */
+    background-color: #7c7f82d8; /* Cor de fundo para as mensagens do usuário */
+    color: #fff; /* Cor do texto */
+    margin-bottom: 20px; /* Espaço entre mensagens do usuário e mensagens da IA */
+}
+
+/* Estilo para as mensagens enviadas pela IA */
+.message-container.ai {
+    align-self: flex-start; /* Alinha à esquerda */
+    background-color: #444; /* Cor de fundo para as mensagens da IA */
+    color: #e0e0e0; /* Cor do texto */
+    margin-bottom: 20px; /* Espaço entre mensagens da IA e a próxima mensagem */
+}
+
+/* Estilo padrão para todas as mensagens */
+.message-container .message {
+    margin: 0;
+    padding: 10px;
+    border-radius: 8px;
+    display: inline-block;
+}
+
+/* Estilo para a área do chat */
+#chat {
+    display: flex;
+    padding: 10px;
+    border-top: 2px solid #444;
+    background-color: #2e2e2e; /* Cor de fundo do chat */
+    justify-content: center; /* Centraliza o conteúdo horizontalmente */
+}
+
+/* Estilo para o contêiner do campo de entrada de texto */
+#input-container {
+    display: flex;
+    align-items: stretch; /* Garante que o textarea e o botão tenham a mesma altura */
+    width: 100%; /* Ajuste a largura conforme necessário */
+    max-width: 600px; /* Define uma largura máxima opcional */
+    padding: 10px; /* Espaçamento interno */
+    margin: 0 auto; /* Centraliza o contêiner horizontalmente */
+}
+
+/* Estilo para o campo de entrada de texto (textarea) */
+#input {
+    flex: 1; /* Permite que o textarea ocupe o máximo de espaço disponível */
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #555;
+    border-radius: 4px;
+    background-color: #333; /* Cor de fundo do textarea */
+    color: #e0e0e0; /* Cor do texto no textarea */
+    resize: none; /* Impede o redimensionamento */
+    overflow-y: hidden; /* Oculta o scroll vertical */
+    min-height: 40px; /* Altura mínima do textarea ajustada */
+    max-height: 60px; /* Altura máxima do textarea ajustada */
+}
+
+/* Estilo para o botão de envio */
+#sendButton {
+    padding: 12px 20px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #4e494f; 
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    margin-left: 10px; /* Espaçamento entre o textarea e o botão */
+}
+
+/* Efeito ao passar o mouse sobre o botão de envio */
+#sendButton:hover {
+    background-color: #201e1e; /* Cor de fundo azul escuro */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Sombra para efeito de destaque */
+}
+
+/* Estilo para a animação de carregamento */
+.loading {
+    font-size: 16px;
+    color: #00bcd4; /* Cor do texto de carregamento */
+    display: flex;
+    align-items: center;
+}
+
+.dot {
+    animation: blink 1s step-start 0s infinite;
+    display: inline-block;
+    margin-left: 5px;
+}
+
+@keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+/* Estilo para o botão de rolar para baixo */
+#scrollDownButton {
+    position: fixed; /* Fixa o botão na tela */
+    bottom: 80px; /* Ajusta a distância do fundo da tela para estar acima do container do textarea */
+    left: 50%; /* Centraliza horizontalmente */
+    transform: translateX(-50%); /* Corrige o alinhamento horizontal para o centro */
+    background-color: #4e494f; /* Cor de fundo escura */
+    border: none;
+    border-radius: 50%;
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    z-index: 10; /* Garante que o botão fique acima de outros elementos */
+    display: none; /* Inicialmente oculto */
+}
+
+#scrollDownButton:hover {
+    background-color: #333; /* Cor ao passar o mouse */
+}
+
+#scrollDownButton i {
+    color: #1e90ff; /* Cor do ícone */
+    font-size: 20px; /* Tamanho do ícone */
+}
+
+
+
+
